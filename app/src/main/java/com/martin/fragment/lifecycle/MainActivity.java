@@ -1,71 +1,49 @@
 package com.martin.fragment.lifecycle;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-import com.martin.fragment.lifecycle.fragment.Fragment1;
-import com.martin.fragment.lifecycle.fragment.Fragment2;
+import com.martin.fragment.lifecycle.activity.AttachDetachFragmentsActivity;
+import com.martin.fragment.lifecycle.activity.ReplaceFragmentsActivity;
+import com.martin.fragment.lifecycle.activity.ShowHideFragmentsActivity;
 
+/**
+ * <p>
+ * Package Name:com.martin.fragment.lifecycle
+ * </p>
+ * <p>
+ * Class Name:MainActivity
+ * <p>
+ * Description:API Activity entrance
+ * </p>
+ *
+ * @Author Martin
+ * @Version 1.0 2018/11/12 10:35 AM Release
+ * @Reviser:
+ * @Modification Time:2018/11/12 10:35 AM
+ */
 public class MainActivity extends AppCompatActivity {
 
-    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.bottom);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.bottom_radio1:
-                        showToast("radio1");
-                        replaceFragment("radio1");
-                        break;
-                    case R.id.bottom_radio2:
-                        showToast("radio2");
-                        replaceFragment("radio2");
-                        break;
-                }
-            }
-        });
-    }
-
-    private void replaceFragment(String tag) {
-        if (currentFragment != null) {
-            getSupportFragmentManager().beginTransaction().hide(currentFragment).commit();
-        }
-        currentFragment = getSupportFragmentManager().findFragmentByTag(tag);
-        if (currentFragment == null) {
-            switch (tag) {
-                case "radio1":
-                    currentFragment = new Fragment1();
-                    break;
-                case "radio2":
-                    currentFragment = new Fragment2();
-                    break;
-            }
-            getSupportFragmentManager().beginTransaction().add(R.id.fl_main_content, currentFragment, tag).commit();
-        }else {
-            getSupportFragmentManager().beginTransaction().show(currentFragment).commit();
-        }
-    }
-
-    public void showToast(String toast) {
-        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
     }
 
 
+    public void replace(View view) {
+        startActivity(new Intent(this,ReplaceFragmentsActivity.class));
+    }
 
+    public void attach_detach(View view) {
+        startActivity(new Intent(this,AttachDetachFragmentsActivity.class));
+    }
 
-
-
-
-
-
+    public void add_hide(View view) {
+        startActivity(new Intent(this,ShowHideFragmentsActivity.class));
+    }
 
 }
